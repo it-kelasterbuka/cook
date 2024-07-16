@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ambil Cookies</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        #cookies-list {
+            margin-top: 20px;
+        }
+        .cookie-item {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daftar Cookies</h1>
+        <button onclick="getCookies()">Ambil Cookies</button>
+        <div id="cookies-list"></div>
+    </div>
+
+    <script>
+        // Fungsi untuk mendapatkan semua cookies dari dokumen
+        function getCookies() {
+            // Mengambil semua cookies sebagai string
+            const cookies = document.cookie;
+
+            // Mendapatkan elemen untuk menampilkan cookies
+            const cookiesList = document.getElementById('cookies-list');
+
+            // Menampilkan cookies di elemen HTML
+            cookiesList.innerHTML = ''; // Kosongkan konten sebelumnya
+
+            // Memeriksa jika cookies tidak ada
+            if (!cookies) {
+                cookiesList.innerHTML = '<p>Tidak ada cookies.</p>';
+                return;
+            }
+
+            // Memecah string cookies menjadi array
+            const cookiesArray = cookies.split('; ').map(cookie => {
+                // Memecah setiap cookie menjadi nama dan nilai
+                const [name, ...valueParts] = cookie.split('=');
+                const value = valueParts.join('='); // Menggabungkan kembali nilai jika ada '='
+                return { name, value };
+            });
+
+            // Menampilkan cookies sebagai daftar di HTML
+            cookiesArray.forEach(cookie => {
+                const cookieItem = document.createElement('div');
+                cookieItem.className = 'cookie-item';
+                cookieItem.textContent = `Nama: ${cookie.name}, Nilai: ${cookie.value}`;
+                cookiesList.appendChild(cookieItem);
+            });
+        }
+    </script>
+</body>
+</html>
